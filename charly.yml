@@ -1,0 +1,12 @@
+# plugin-strata — the `charly strata` management CLI for a deployed Strata engine.
+#
+# A plugin repo is a candy repo whose candy carries a `plugin:` block (umbrella `AGENTS.md`,
+# "Repo classes and naming"; the class is `plugin-`). This plugin is EXTERNAL by default — the
+# placement rule for a new plugin: projects compose it as
+# `@github.com/opencharly/plugin-strata/candy/plugin-strata:<tag>` and charly connects it by word at
+# runtime (host-builds ./cmd/serve, speaks go-plugin gRPC). Nothing is compiled into the charly
+# binary, so there is no `compiled_plugins:` entry and no pin inside `charly/charly.yml`.
+repo: github.com/opencharly/plugin-strata
+discover:
+    - path: candy
+      recursive: true

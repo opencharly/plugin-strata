@@ -1,0 +1,51 @@
+plugin-strata:
+    candy:
+        # The `description:` is a PUBLISHED surface, not decoration: `charly docs generate` renders one
+        # opencharly.ai page per plugin candy from the description, the `providers:` list and this
+        # candy's own `schema/*.cue`. An empty or placeholder description is a public-docs defect and
+        # an ADE gate miss at once.
+        description: |
+            The `charly strata` management CLI — drive a deployed Strata engine from the host, over
+            the same HTTP API your clients use.
+
+            Strata serves Qwen3.8-Flash-Next on port 8080 with an OpenAI-, Anthropic- and
+            Responses-compatible surface, and it owns its own management API: `/health` (answered
+            before the API-key gate), `/status`, `/models`, `/props`, `/metrics`, `/logs`, the
+            load/unload pair, and `/config`. This plugin is the thin `charly strata` front end to
+            those endpoints, so an operator never hand-rolls `curl` against a deployment and never
+            learns the engine's internal URL layout.
+
+            **`config get` reads the engine's own key catalogue** (`GET /config` publishes every
+            key it will accept at runtime, with its current value and a help string), so the plugin
+            never hard-codes a list that would drift from the engine. **`config set` is deliberately
+            NOT offered:** at the pinned engine version a config *save* replaces the volume's
+            run-config symlink with a file inside the image, so the edit is lost when the container
+            is recreated (upstream #2547, still unmerged; verified against the pin). Configuration
+            that is not runtime-editable comes from the deployment's `env:` instead — which is the
+            whole design of the `strata` layer.
+
+            The plugin is placement-agnostic and composed externally; whether it is compiled into a
+            charly build is computed from `charly.yml`'s `compiled_plugins:`, never stated here.
+        plugin:
+            # EXTERNAL (out-of-tree): the default for a new plugin. charly connects it by word at
+            # runtime with zero charly-module changes.
+            source: github.com/opencharly/plugin-strata/candy/plugin-strata
+            providers:
+                - command:strata
+        plan:
+            # Mirrors plugin-ollama and plugin-qdrant EXACTLY (R2 -- the org's canonical form for a
+            # `command:`-class plugin): the ADE check is a BUILD-context marker, a built-in `command`
+            # check running `true`. A command plugin's own surface speaks to a live server, so
+            # exercising it belongs to the R10 bed, never to the candy's plan.
+            #
+            # The first committed form of this file used VERB sugar (`strata: {method: version}`)
+            # against a `command:`-only provider list. That was wrong twice: the sugar resolves only
+            # for a `verb:strata` provider, and a deployment-dependent check cannot be the
+            # deterministic one. `charly box validate` passed regardless, because it judges the
+            # declaration's well-formedness rather than the sugar/provider class match -- the
+            # precedents caught what the validator could not.
+            - check: the command plugin ships a buildable Go module (go.mod + the provider) the host can build
+              id: strata-module-present
+              context:
+                - build
+              command: "true"

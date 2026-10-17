@@ -108,3 +108,9 @@ strata-cli-skill:
             - `/charly-strata:strata` — the BOX (that layer on the CachyOS base).
             - `/charly-ollama:ollama-cli` — the same shape for the org's other local inference server.
 
+# RUNTIME PRECONDITION (measured 2026-10-17): this plugin is a CLIENT. It reaches a deployed strata
+# server over HTTP and reads the key catalogue from `GET /config`, so nothing here works until a
+# `strata` deployment is running and reachable; the plugin itself needs no model and no GPU. The
+# real-engine proof lives in the layer repo's `check-strata-gpu-pod`, which names a venue and
+# pre-staged weights rather than downloading (ledger §57). Stated here because "the CLI over HTTP"
+# otherwise reads as self-contained.

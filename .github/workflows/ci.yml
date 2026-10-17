@@ -37,6 +37,6 @@ jobs:
         working-directory: candy/plugin-strata
         run: GOWORK=off go build ./...
 
-      - name: tests (live qdrant test skips without a binary)
+      - name: tests (the live-server probe skips without a deployment)
         working-directory: candy/plugin-strata
         run: GOWORK=off go test ./...

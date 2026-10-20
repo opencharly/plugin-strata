@@ -55,6 +55,10 @@ strata-cli-skill:
         name: strata-cli
         family: strata
         owner: plugin-strata
+        triggers:
+            - 'the `charly strata` management CLI / the `command:strata` plugin / `candy/plugin-strata`'
+            - 'inspecting a running Strata engine from the host / listing its models, config, or catalogues'
+            - '`charly strata config get`'
         description: |-
             The `charly strata` management CLI for a DEPLOYED Strata engine (command:strata plugin,
             candy/plugin-strata). MUST be invoked before inspecting or reading the catalogues of a

@@ -18,6 +18,10 @@ user overview and never carries agent guidance.
 - `/charly-check:check` — the ADE plan and the disposable bed that gates a plugin.
 - `/charly-internals:git-workflow` — before any git/PR action.
 
+## This repo's own skill
+
+- `.agents/skills/strata-cli/SKILL.md` - the `charly strata` management CLI surface for a **deployed** Strata engine: catalogue and config inspection only, no mutation (`config get` never `config set`, because upstream #2547 loses a save through the volume symlink). **Read it before adding or changing a `charly strata` verb.**
+
 ## What is unique here
 
 - **External placement is deliberate and stated once**: `plugin.source` names this repo's own candy,

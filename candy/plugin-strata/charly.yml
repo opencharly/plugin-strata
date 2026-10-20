@@ -59,11 +59,6 @@ strata-cli-skill:
             - 'the `charly strata` management CLI / the `command:strata` plugin / `candy/plugin-strata`'
             - 'inspecting a running Strata engine from the host / listing its models, config, or catalogues'
             - '`charly strata config get`'
-        description: |-
-            The `charly strata` management CLI for a DEPLOYED Strata engine (command:strata plugin,
-            candy/plugin-strata). MUST be invoked before inspecting or reading the catalogues of a
-            running server from the host. It exposes no mutation: `config get` only, never
-            `config set` (upstream #2547 loses a save through the volume symlink).
 # RUNTIME PRECONDITION (measured 2026-10-17): this plugin is a CLIENT. It reaches a deployed strata
 # server over HTTP and reads the key catalogue from `GET /config`, so nothing here works until a
 # `strata` deployment is running and reachable; the plugin itself needs no model and no GPU. The
